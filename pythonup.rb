@@ -25,7 +25,6 @@ class Pythonup < Formula
     system "./venv/bin/pip", "install", "-r", "requirements.txt"
 
     # Collect dependencies into keg.
-    system "mkdir", libexec
     Dir.glob("./venv/lib/*/site-packages/*") { |item|
       name = item.rpartition("/").last
       next if [
@@ -52,7 +51,6 @@ EOS
     end
 
     # Install the launcher.
-    system "mkdir", bin
     bin.install "pythonup"
   end
 end
