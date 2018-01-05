@@ -16,9 +16,9 @@ class Pythonup < Formula
     # Dump Pipfile to requirements.txt with Pipfile API.
     system "./venv/bin/pip", "install", "pipfile"
     txt = `"./venv/bin/python" "tools/dump_requirements.py" "Pipfile"`
-    File.open "requirements.txt", "w" { |f|
+    File.open "requirements.txt", "w" do |f|
       f.write txt
-    }
+    end
     system "./venv/bin/pip", "uninstall", "-y", "pipfile", "toml"
 
     # Install the dependencies.
@@ -40,7 +40,7 @@ class Pythonup < Formula
     libexec.install "pythonup"
 
     # Generate launcher.
-    File.open "pythonup", "w" { |f|
+    File.open "pythonup", "w" do |f|
       f.write <<~EOS
 \#!/bin/sh
 
@@ -49,7 +49,7 @@ PYTHON="#{HOMEBREW_PREFIX}/Cellar/python3/$VERSION/bin/python3"
 
 PYTHONPATH="#{libexec}:$PATHONPATH" exec "$PYTHON" -m pythonup $@
 EOS
-    }
+    end
 
     # Install the launcher.
     system "mkdir", bin
