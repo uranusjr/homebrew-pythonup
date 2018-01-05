@@ -1,5 +1,5 @@
 class Pythonup < Formula
-  desc "PYthon Manager for macOS"
+  desc "The Python Runtime Manager for macOS"
   homepage "https://github.com/uranusjr/pythonup-macos"
 
   head "https://github.com/uranusjr/pythonup-macos", :using => :git
@@ -16,9 +16,9 @@ class Pythonup < Formula
     # Dump Pipfile to requirements.txt with Pipfile API.
     system "./venv/bin/pip", "install", "pipfile"
     txt = `"./venv/bin/python" "tools/dump_requirements.py" "Pipfile"`
-    f = File.new "requirements.txt", "w"
-    f.write txt
-    f.close
+    File.open "requirements.txt", "w" { |f|
+      f.write txt
+    }
     system "./venv/bin/pip", "uninstall", "-y", "pipfile", "toml"
 
     # Install the dependencies.
@@ -40,8 +40,8 @@ class Pythonup < Formula
     libexec.install "pythonup"
 
     # Generate launcher.
-    f = File.new("pythonup", "w")
-    f.write <<~EOS
+    File.open "pythonup", "w" { |f|
+      f.write <<~EOS
 \#!#{HOMEBREW_PREFIX}/bin/python3
 
 import sys
@@ -50,9 +50,8 @@ sys.path.insert(0, '#{libexec}')
 if __name__ == '__main__':
     import pythonup.__main__
     pythonup.__main__.cli()
-
 EOS
-    f.close()
+    }
 
     # Install the launcher.
     system "mkdir", bin
