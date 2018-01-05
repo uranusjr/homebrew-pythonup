@@ -1,10 +1,10 @@
-class Pym < Formula
+class Pythonup < Formula
   desc "PYthon Manager for macOS"
-  homepage "https://github.com/uranusjr/pym-macos"
+  homepage "https://github.com/uranusjr/pythonup-macos"
 
-  head "https://github.com/uranusjr/pym-macos", :using => :git
+  head "https://github.com/uranusjr/pythonup-macos", :using => :git
 
-  depends_on "pyenv"  # TODO: We only need python-build. Can we kill this?
+  depends_on "pyenv"
   depends_on "python3"
   depends_on "readline"
   depends_on "xz"
@@ -36,11 +36,11 @@ class Pym < Formula
       libexec.install item
     }
 
-    # Copy pym into keg.
-    libexec.install "pym"
+    # Copy pythonup package into keg.
+    libexec.install "pythonup"
 
     # Generate launcher.
-    f = File.new("pym", "w")
+    f = File.new("pythonup", "w")
     f.write <<~EOS
 \#!#{HOMEBREW_PREFIX}/bin/python3
 
@@ -48,14 +48,14 @@ import sys
 sys.path.insert(0, '#{libexec}')
 
 if __name__ == '__main__':
-    import pym.__main__
-    pym.__main__.cli()
+    import pythonup.__main__
+    pythonup.__main__.cli()
 
 EOS
     f.close()
 
     # Install the launcher.
     system "mkdir", bin
-    bin.install "pym"
+    bin.install "pythonup"
   end
 end

@@ -1,9 +1,4 @@
-# Homebrew-PYM
+# Homebrew-PythonUp
 
-Homebrew Tap for [PYM-macOS](https://github.com/uranusjr/pym-macos).
-
-Usage:
-
-    brew install --HEAD uranusjr/pym/pym
-
-This installs a `pym` script in Homebrew. Use it to manage Pythons.
+Homebrew Tap for [PythonUp-macOS](https://github.com/uranusjr/pythonup-macos).
+See its documentation for usage.
