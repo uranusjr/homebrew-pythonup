@@ -42,14 +42,12 @@ class Pythonup < Formula
     # Generate launcher.
     File.open "pythonup", "w" { |f|
       f.write <<~EOS
-\#!#{HOMEBREW_PREFIX}/bin/python3
+\#!/bin/sh
 
-import sys
-sys.path.insert(0, '#{libexec}')
+VERSION="$(ls -1 '#{HOMEBREW_PREFIX}/Cellar/python3' | tail -n1)"
+PYTHON="#{HOMEBREW_PREFIX}/Cellar/python3/$VERSION/bin/python3"
 
-if __name__ == '__main__':
-    import pythonup.__main__
-    pythonup.__main__.cli()
+PYTHONPATH="#{libexec}:$PATHONPATH" exec "$PYTHON" -m pythonup $@
 EOS
     }
 
