@@ -9,29 +9,30 @@ class Pythonup < Formula
   depends_on "readline"
   depends_on "xz"
 
-  def install
-    # Create a venv to collect dependencies.
-    system HOMEBREW_PREFIX/"bin/python3", "-m", "venv", "./venv"
+  def python3
+    prefix = HOMEBREW_PREFIX/"Cellar/python3"
+    prefix/Dir.entries(prefix).last/"bin/python3"
+  end
 
-    # Dump Pipfile to requirements.txt with Pipfile API.
+  def install
+    # Create a venv to dump information from Pipfile to requirements.txt.
+    ohai "Collecting requirements"
+    system python3, "-m", "venv", "./venv", "--clear"
     system "./venv/bin/pip", "install", "pipfile"
     txt = `"./venv/bin/python" "tools/dump_requirements.py" "Pipfile"`
     File.open "requirements.txt", "w" do |f|
       f.write txt
     end
-    system "./venv/bin/pip", "uninstall", "-y", "pipfile", "toml"
 
-    # Install the dependencies.
+    # Create a new venv to actually collect dependencies.
+    system python3, "-m", "venv", "./venv", "--clear"
+    excludes = Dir.glob "./venv/lib/*/site-packages/*"
     system "./venv/bin/pip", "install", "-r", "requirements.txt"
 
     # Collect dependencies into keg.
     Dir.glob("./venv/lib/*/site-packages/*") { |item|
       name = item.rpartition("/").last
-      next if [
-        ".", "..", "__pycache__",
-        "easy_isntall.py", "pip", "pkg_resources", "setuptools",
-      ].include? name
-      next if name.end_with? ".dist-info"
+      next if excludes.include? item or name.end_with? ".dist-info"
       libexec.install item
     }
 
@@ -39,6 +40,7 @@ class Pythonup < Formula
     libexec.install "pythonup"
 
     # Generate launcher.
+    ohai "Generating launcher"
     File.open "pythonup", "w" do |f|
       f.write <<~EOS
 \#!/bin/sh
