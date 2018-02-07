@@ -55,4 +55,11 @@ EOS
     # Install the launcher.
     bin.install "pythonup"
   end
+
+  def caveats; <<~EOS
+    You should configure your shell to add the following paths to your PATH:
+        $HOME/Library/PythonUp/bin
+        $HOME/Library/PythonUp/cmd
+    EOS
+  end
 end
