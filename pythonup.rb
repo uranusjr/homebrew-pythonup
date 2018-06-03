@@ -11,7 +11,7 @@ class Pythonup < Formula
 
   def python3
     prefix = HOMEBREW_PREFIX/"Cellar/python3"
-    prefix/Dir.entries(prefix).last/"bin/python3"
+    prefix/Dir.entries(prefix).sort_by(&:downcase).last/"bin/python3"
   end
 
   def install
