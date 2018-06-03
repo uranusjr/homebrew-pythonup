@@ -18,7 +18,7 @@ class Pythonup < Formula
     # Create a venv to dump information from Pipfile to requirements.txt.
     ohai "Collecting requirements"
     system python3, "-m", "venv", "./venv", "--clear"
-    system "./venv/bin/pip", "install", "pipfile"
+    system "./venv/bin/pip", "install", "pipfile", "requirementslib"
     txt = `"./venv/bin/python" "tools/dump_requirements.py" "Pipfile"`
     File.open "requirements.txt", "w" do |f|
       f.write txt
