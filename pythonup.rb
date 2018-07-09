@@ -1,8 +1,8 @@
 class Pythonup < Formula
-  desc "The Python Runtime Manager for macOS"
-  homepage "https://github.com/uranusjr/pythonup-macos"
+  desc "The Python Runtime Manager for POSIX"
+  homepage "https://github.com/uranusjr/pythonup-posix"
 
-  head "https://github.com/uranusjr/pythonup-macos", :using => :git
+  head "https://github.com/uranusjr/pythonup-posix.git", :using => :git
 
   depends_on "pyenv"
   depends_on "python3"
@@ -18,8 +18,9 @@ class Pythonup < Formula
     # Create a venv to dump information from Pipfile to requirements.txt.
     ohai "Collecting requirements"
     system python3, "-m", "venv", "./venv", "--clear"
-    system "./venv/bin/pip", "install", "pipfile", "requirementslib"
+    system "./venv/bin/pip", "install", "requirementslib~=1.0"
     txt = `"./venv/bin/python" "tools/dump_requirements.py" "Pipfile"`
+    raise RuntimeError, 'cannot dump requirements' if txt.nil? || txt.empty?
     File.open "requirements.txt", "w" do |f|
       f.write txt
     end
