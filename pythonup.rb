@@ -19,7 +19,7 @@ class Pythonup < Formula
     ohai "Collecting requirements"
     system python3, "-m", "venv", "./venv", "--clear"
     system "./venv/bin/pip", "install", "requirementslib~=1.0"
-    txt = `"./venv/bin/python" "tools/dump_requirements.py" "Pipfile"`
+    txt = `"./venv/bin/python" "tools/dump_requirements.py" ""`
     raise RuntimeError, 'cannot dump requirements' if txt.nil? || txt.empty?
     File.open "requirements.txt", "w" do |f|
       f.write txt
