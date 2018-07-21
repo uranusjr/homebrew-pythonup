@@ -9,12 +9,17 @@ class Pythonup < Formula
   depends_on "readline"
   depends_on "xz"
 
-  def python3
+  def python_prefix
     prefix = HOMEBREW_PREFIX/"Cellar/python3"
     if not File.directory? prefix   # Homebrew merged 2 and 3 formulae.
       prefix = HOMEBREW_PREFIX/"Cellar/python"
     end
-    prefix/Dir.entries(prefix).sort_by(&:downcase).last/"bin/python3"
+    prefix
+  end
+
+  def python3
+    version = Dir.entries(python_prefix).sort_by(&:downcase).last
+    python_prefix/version/"bin/python3"
   end
 
   def install
@@ -49,8 +54,8 @@ class Pythonup < Formula
       f.write <<~EOS
 \#!/bin/sh
 
-VERSION="$(ls -1 '#{HOMEBREW_PREFIX}/Cellar/python3' | tail -n1)"
-PYTHON="#{HOMEBREW_PREFIX}/Cellar/python3/$VERSION/bin/python3"
+VERSION="$(ls -1 '#{python_prefix}' | tail -n1)"
+PYTHON="#{python_prefix}/$VERSION/bin/python3"
 
 PYTHONPATH="#{libexec}:$PATHONPATH" exec "$PYTHON" -m pythonup $@
 EOS
