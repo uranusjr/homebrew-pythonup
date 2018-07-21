@@ -11,6 +11,9 @@ class Pythonup < Formula
 
   def python3
     prefix = HOMEBREW_PREFIX/"Cellar/python3"
+    if not File.directory? prefix   # Homebrew merged 2 and 3 formulae.
+      prefix = HOMEBREW_PREFIX/"Cellar/python"
+    end
     prefix/Dir.entries(prefix).sort_by(&:downcase).last/"bin/python3"
   end
 
