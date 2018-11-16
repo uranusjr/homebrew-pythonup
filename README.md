@@ -1,5 +1,9 @@
 # Homebrew-PythonUp
 
-Homebrew Tap for [PythonUp for macOS]. See its documentation for usage.
+Homebrew Tap for Python tools. See documentation of respective projects for details.
 
-[PythonUp for macOS]: https://github.com/uranusjr/pythonup-macos
+* [PythonUp for POSIX].
+* [Pythong launcher for POSIX].
+
+[PythonUp]: https://github.com/uranusjr/pythonup-posix
+[Python launcher]: https://github.com/uranusjr/pylauncher-posix
